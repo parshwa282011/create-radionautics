@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "create_radio:block/andesite_radio_antenna"
+    }
+  }
+}

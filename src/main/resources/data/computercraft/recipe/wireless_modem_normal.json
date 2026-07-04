@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": {
+      "item": "minecraft:stone"
+    },
+    "E": {
+      "tag": "c:ender_pearls"
+    }
+  },
+  "pattern": [
+    "###",
+    "#E#",
+    "###"
+  ],
+  "result": {
+    "id": "create_radio:andesite_radio_antenna",
+    "count": 1
+  }
+}

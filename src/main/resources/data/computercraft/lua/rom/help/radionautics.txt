@@ -1,0 +1,18 @@
+Create: Radionautics
+
+Use the radionautics API with an attached radionautics_radio peripheral.
+
+Examples:
+  local radio = radionautics.find()
+  radio.udpBind("145.500")
+  radio.send("145.500", "chat:hello")
+
+Helpers:
+  radionautics.udpBind(frequency)
+  radionautics.tcpListen(frequency)
+  radionautics.send(frequency, payload)
+  radionautics.receive()
+  radionautics.crypto.encrypt(kind, data, key)
+  radionautics.crypto.decrypt(kind, data, key)
+  radionautics.sable.continousLoad(true)
+  radionautics.sable.shipCenterPos()

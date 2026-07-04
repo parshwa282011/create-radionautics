@@ -1,0 +1,8 @@
+{
+  "parent": "create_radio:block/andesite_radio_antenna",
+  "textures": {
+    "base": "minecraft:block/copper_block",
+    "mast": "minecraft:block/lightning_rod",
+    "particle": "minecraft:block/copper_block"
+  }
+}

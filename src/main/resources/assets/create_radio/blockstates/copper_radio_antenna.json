@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "create_radio:block/copper_radio_antenna"
+    }
+  }
+}
