@@ -27,6 +27,9 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class BrassRadioLinkBlock extends BaseEntityBlock {
@@ -34,6 +37,24 @@ public class BrassRadioLinkBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty RECEIVER = BooleanProperty.create("receiver");
+    private static final VoxelShape UP_SHAPE = Shapes.or(
+            box(2.0D, 0.0D, 2.0D, 14.0D, 3.5D, 14.0D),
+            box(0.0D, 1.0D, 3.0D, 3.0D, 11.0D, 6.0D));
+    private static final VoxelShape DOWN_SHAPE = Shapes.or(
+            box(2.0D, 12.5D, 2.0D, 14.0D, 16.0D, 14.0D),
+            box(0.0D, 5.0D, 3.0D, 3.0D, 15.0D, 6.0D));
+    private static final VoxelShape NORTH_SHAPE = Shapes.or(
+            box(3.0D, 1.0D, 0.0D, 13.0D, 15.0D, 4.0D),
+            box(3.0D, 3.0D, 0.0D, 6.0D, 5.0D, 10.0D));
+    private static final VoxelShape SOUTH_SHAPE = Shapes.or(
+            box(3.0D, 1.0D, 12.0D, 13.0D, 15.0D, 16.0D),
+            box(3.0D, 3.0D, 6.0D, 6.0D, 5.0D, 16.0D));
+    private static final VoxelShape WEST_SHAPE = Shapes.or(
+            box(0.0D, 1.0D, 3.0D, 4.0D, 15.0D, 13.0D),
+            box(0.0D, 3.0D, 3.0D, 10.0D, 5.0D, 6.0D));
+    private static final VoxelShape EAST_SHAPE = Shapes.or(
+            box(12.0D, 1.0D, 3.0D, 16.0D, 15.0D, 13.0D),
+            box(6.0D, 3.0D, 3.0D, 16.0D, 5.0D, 6.0D));
 
     public BrassRadioLinkBlock(Properties properties) {
         super(properties);
@@ -51,6 +72,32 @@ public class BrassRadioLinkBlock extends BaseEntityBlock {
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
+    }
+
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return shapeFor(state.getValue(FACING));
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return shapeFor(state.getValue(FACING));
+    }
+
+    @Override
+    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
+        return Shapes.empty();
+    }
+
+    private static VoxelShape shapeFor(Direction facing) {
+        return switch (facing) {
+            case DOWN -> DOWN_SHAPE;
+            case NORTH -> NORTH_SHAPE;
+            case SOUTH -> SOUTH_SHAPE;
+            case WEST -> WEST_SHAPE;
+            case EAST -> EAST_SHAPE;
+            case UP -> UP_SHAPE;
+        };
     }
 
     @Nullable

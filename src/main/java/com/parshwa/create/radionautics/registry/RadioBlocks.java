@@ -16,22 +16,22 @@ public final class RadioBlocks {
     public static final Supplier<Block> ANDESITE_RADIO_ANTENNA = BLOCKS.registerBlock(
             "andesite_radio_antenna",
             properties -> new RadioAntennaBlock(AntennaTier.ANDESITE, properties),
-            BlockBehaviour.Properties.of().strength(2.0F, 6.0F));
+            BlockBehaviour.Properties.of().strength(2.0F, 6.0F).noOcclusion());
 
     public static final Supplier<Block> COPPER_RADIO_ANTENNA = BLOCKS.registerBlock(
             "copper_radio_antenna",
             properties -> new RadioAntennaBlock(AntennaTier.COPPER, properties),
-            BlockBehaviour.Properties.of().strength(2.5F, 6.0F));
+            BlockBehaviour.Properties.of().strength(2.5F, 6.0F).noOcclusion());
 
     public static final Supplier<Block> BRASS_RADIO_ANTENNA = BLOCKS.registerBlock(
             "brass_radio_antenna",
             properties -> new RadioAntennaBlock(AntennaTier.BRASS, properties),
-            BlockBehaviour.Properties.of().strength(3.0F, 6.0F));
+            BlockBehaviour.Properties.of().strength(3.0F, 6.0F).noOcclusion());
 
     public static final Supplier<Block> BRASS_RADIO_LINK = BLOCKS.registerBlock(
             "brass_radio_link",
             BrassRadioLinkBlock::new,
-            BlockBehaviour.Properties.of().strength(3.0F, 6.0F));
+            BlockBehaviour.Properties.of().strength(3.0F, 6.0F).noOcclusion());
 
     private RadioBlocks() {
     }
