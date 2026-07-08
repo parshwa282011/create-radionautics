@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "part=lower": {
+      "model": "create_radio:block/astronautical_radio_link_lower"
+    },
+    "part=middle": {
+      "model": "create_radio:block/astronautical_radio_link_middle"
+    },
+    "part=upper": {
+      "model": "create_radio:block/astronautical_radio_link_upper"
+    }
+  }
+}

@@ -21,6 +21,7 @@ public final class RadioCreativeTabs {
                 output.accept(RadioItems.ANDESITE_RADIO_ANTENNA.get());
                 output.accept(RadioItems.COPPER_RADIO_ANTENNA.get());
                 output.accept(RadioItems.BRASS_RADIO_ANTENNA.get());
+                output.accept(RadioItems.ASTRONAUTICAL_RADIO_LINK.get());
                 output.accept(RadioItems.BRASS_RADIO_LINK.get());
             })
             .build());

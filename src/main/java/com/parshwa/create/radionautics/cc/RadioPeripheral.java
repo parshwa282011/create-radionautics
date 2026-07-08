@@ -178,6 +178,17 @@ public class RadioPeripheral implements IPeripheral, RadioAntennaBlockEntity.Pac
         return Map.of("x", pos.x, "y", pos.y, "z", pos.z);
     }
 
+    @LuaFunction
+    public final Map<String, Double> sableShipRotation() {
+        var rotation = antenna.shipRotation();
+        return Map.of("x", rotation.x(), "y", rotation.y(), "z", rotation.z(), "w", rotation.w());
+    }
+
+    @LuaFunction
+    public final Map<String, Double> sableShipQuaternion() {
+        return sableShipRotation();
+    }
+
     private static void requireFrequency(String frequency) throws LuaException {
         if (frequency == null || frequency.isBlank()) {
             throw new LuaException("frequency cannot be blank");

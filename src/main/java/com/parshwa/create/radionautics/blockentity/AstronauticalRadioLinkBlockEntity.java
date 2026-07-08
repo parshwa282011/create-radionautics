@@ -1,11 +1,9 @@
 package com.parshwa.create.radionautics.blockentity;
 
 import com.parshwa.create.radionautics.radio.AntennaTier;
-import com.parshwa.create.radionautics.radio.RadioEndpoint;
 import com.parshwa.create.radionautics.radio.RadioNetwork;
 import com.parshwa.create.radionautics.radio.RadioRedstoneLink;
 import com.parshwa.create.radionautics.radio.SablePositionHelper;
-import com.parshwa.create.radionautics.block.BrassRadioLinkBlock;
 import com.parshwa.create.radionautics.registry.RadioBlockEntities;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
@@ -16,27 +14,26 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 
-public class BrassRadioLinkBlockEntity extends BlockEntity implements RadioEndpoint, RadioRedstoneLink {
-    private UUID radioId = UUID.randomUUID();
+public class AstronauticalRadioLinkBlockEntity extends RadioAntennaBlockEntity implements RadioRedstoneLink {
+    private UUID redstoneRadioId = UUID.randomUUID();
     private String frequency = "145.500";
     private boolean receiver;
     private int lastInputStrength = -1;
     private int outputStrength;
     private boolean sableForceLoadRequested;
 
-    public BrassRadioLinkBlockEntity(BlockPos pos, BlockState blockState) {
-        super(RadioBlockEntities.BRASS_RADIO_LINK.get(), pos, blockState);
+    public AstronauticalRadioLinkBlockEntity(BlockPos pos, BlockState blockState) {
+        super(RadioBlockEntities.ASTRONAUTICAL_RADIO_LINK.get(), pos, blockState);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, BrassRadioLinkBlockEntity link) {
+    public static void tick(Level level, BlockPos pos, BlockState state, AstronauticalRadioLinkBlockEntity link) {
         if (level.isClientSide) {
             return;
         }
 
+        RadioNetwork.registerAntenna(link);
         RadioNetwork.registerLink(link);
         if (!link.sableForceLoadRequested) {
             link.sableForceLoadRequested = SablePositionHelper.forceLoadContainingSubLevel(link);
@@ -54,35 +51,32 @@ public class BrassRadioLinkBlockEntity extends BlockEntity implements RadioEndpo
         }
     }
 
+    @Override
     public String frequency() {
         return frequency;
     }
 
+    @Override
     public boolean isReceiver() {
         return receiver;
     }
 
+    @Override
     public int outputStrength() {
         return outputStrength;
     }
 
-    public void setReceiver(boolean receiver) {
-        this.receiver = receiver;
-        syncBlockState();
-        setChanged();
-    }
-
+    @Override
     public void configure(String frequency, boolean receiver) {
         this.frequency = RadioAntennaBlockEntity.normalizeFrequency(frequency);
         this.receiver = receiver;
-        syncBlockState();
         setChanged();
         sendData();
     }
 
+    @Override
     public void receiveRadioStrength(int strength) {
         outputStrength = Math.max(0, Math.min(15, strength));
-        syncBlockState();
         setChanged();
         if (level != null) {
             level.updateNeighborsAt(worldPosition, getBlockState().getBlock());
@@ -91,41 +85,16 @@ public class BrassRadioLinkBlockEntity extends BlockEntity implements RadioEndpo
 
     @Override
     public AntennaTier radioTier() {
-        return AntennaTier.BRASS;
+        return AntennaTier.ASTRONAUTICAL;
     }
 
     private void transmitStrength(int strength) {
-        syncBlockState();
         RadioNetwork.broadcastRedstone(this, frequency, strength);
-    }
-
-    private void syncBlockState() {
-        if (level == null || !(getBlockState().getBlock() instanceof BrassRadioLinkBlock)) {
-            return;
-        }
-        boolean powered = receiver ? outputStrength > 0 : lastInputStrength > 0;
-        BlockState state = getBlockState();
-        BlockState updated = state
-                .setValue(BrassRadioLinkBlock.RECEIVER, receiver)
-                .setValue(BrassRadioLinkBlock.POWERED, powered);
-        if (updated != state) {
-            level.setBlock(worldPosition, updated, 3);
-        }
     }
 
     @Override
     public ResourceKey<Level> dimension() {
         return level == null ? null : level.dimension();
-    }
-
-    @Override
-    public BlockPos blockPos() {
-        return worldPosition;
-    }
-
-    @Override
-    public Vec3 radioPosition() {
-        return SablePositionHelper.radioPosition(level, worldPosition);
     }
 
     @Override
@@ -137,19 +106,19 @@ public class BrassRadioLinkBlockEntity extends BlockEntity implements RadioEndpo
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        saveRadioData(tag);
+        saveRadioLinkData(tag);
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        loadRadioData(tag);
+        loadRadioLinkData(tag);
     }
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         CompoundTag tag = super.getUpdateTag(registries);
-        saveRadioData(tag);
+        saveRadioLinkData(tag);
         return tag;
     }
 
@@ -158,22 +127,22 @@ public class BrassRadioLinkBlockEntity extends BlockEntity implements RadioEndpo
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    private void saveRadioData(CompoundTag tag) {
-        tag.putUUID("RadioId", radioId);
-        tag.putString("Frequency", frequency);
-        tag.putBoolean("Receiver", receiver);
-        tag.putInt("LastInputStrength", lastInputStrength);
-        tag.putInt("OutputStrength", outputStrength);
+    private void saveRadioLinkData(CompoundTag tag) {
+        tag.putUUID("RedstoneRadioId", redstoneRadioId);
+        tag.putString("LinkFrequency", frequency);
+        tag.putBoolean("LinkReceiver", receiver);
+        tag.putInt("LinkLastInputStrength", lastInputStrength);
+        tag.putInt("LinkOutputStrength", outputStrength);
     }
 
-    private void loadRadioData(CompoundTag tag) {
-        if (tag.hasUUID("RadioId")) {
-            radioId = tag.getUUID("RadioId");
+    private void loadRadioLinkData(CompoundTag tag) {
+        if (tag.hasUUID("RedstoneRadioId")) {
+            redstoneRadioId = tag.getUUID("RedstoneRadioId");
         }
-        frequency = tag.getString("Frequency").isBlank() ? "145.500" : tag.getString("Frequency");
-        receiver = tag.getBoolean("Receiver");
-        lastInputStrength = tag.getInt("LastInputStrength");
-        outputStrength = tag.getInt("OutputStrength");
+        frequency = tag.getString("LinkFrequency").isBlank() ? "145.500" : tag.getString("LinkFrequency");
+        receiver = tag.getBoolean("LinkReceiver");
+        lastInputStrength = tag.getInt("LinkLastInputStrength");
+        outputStrength = tag.getInt("LinkOutputStrength");
     }
 
     private void sendData() {

@@ -1,18 +1,21 @@
 package com.parshwa.create.radionautics.radio;
 
 public enum AntennaTier {
-    ANDESITE("andesite", 2_000, 1),
-    COPPER("copper", 5_000, 2),
-    BRASS("brass", -1, 5);
+    ANDESITE("andesite", 2_000, 1, false),
+    COPPER("copper", 5_000, 2, false),
+    BRASS("brass", -1, 5, false),
+    ASTRONAUTICAL("astronautical", -1, 8, true);
 
     private final String serializedName;
     private final int rangeBlocks;
     private final int maxBoundFrequencies;
+    private final boolean crossDimensional;
 
-    AntennaTier(String serializedName, int rangeBlocks, int maxBoundFrequencies) {
+    AntennaTier(String serializedName, int rangeBlocks, int maxBoundFrequencies, boolean crossDimensional) {
         this.serializedName = serializedName;
         this.rangeBlocks = rangeBlocks;
         this.maxBoundFrequencies = maxBoundFrequencies;
+        this.crossDimensional = crossDimensional;
     }
 
     public String serializedName() {
@@ -29,5 +32,9 @@ public enum AntennaTier {
 
     public boolean infinite() {
         return rangeBlocks < 0;
+    }
+
+    public boolean crossDimensional() {
+        return crossDimensional;
     }
 }

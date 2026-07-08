@@ -1,20 +1,14 @@
 package com.parshwa.create.radionautics.radio;
 
-import com.parshwa.create.radionautics.blockentity.BrassRadioLinkBlockEntity;
 import com.parshwa.create.radionautics.blockentity.RadioAntennaBlockEntity;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
 public final class RadioNetwork {
     private static final List<RadioAntennaBlockEntity> ANTENNAS = new CopyOnWriteArrayList<>();
-    private static final List<BrassRadioLinkBlockEntity> LINKS = new CopyOnWriteArrayList<>();
+    private static final List<RadioRedstoneLink> LINKS = new CopyOnWriteArrayList<>();
 
     private RadioNetwork() {
     }
@@ -29,13 +23,13 @@ public final class RadioNetwork {
         ANTENNAS.remove(antenna);
     }
 
-    public static void registerLink(BrassRadioLinkBlockEntity link) {
+    public static void registerLink(RadioRedstoneLink link) {
         if (!LINKS.contains(link)) {
             LINKS.add(link);
         }
     }
 
-    public static void unregisterLink(BrassRadioLinkBlockEntity link) {
+    public static void unregisterLink(RadioRedstoneLink link) {
         LINKS.remove(link);
     }
 
@@ -59,19 +53,16 @@ public final class RadioNetwork {
         return delivered;
     }
 
-    public static void broadcastRedstone(BrassRadioLinkBlockEntity sender, String frequency, String encryptedPayload, int fallbackStrength) {
+    public static void broadcastRedstone(RadioRedstoneLink sender, String frequency, int strength) {
         cleanup();
-        for (BrassRadioLinkBlockEntity receiver : LINKS) {
+        for (RadioRedstoneLink receiver : LINKS) {
             if (receiver == sender || receiver.isRemoved()) {
                 continue;
             }
             if (!receiver.isReceiver() || !receiver.frequency().equals(frequency)) {
                 continue;
             }
-            if (!sameDimension(sender.dimension(), receiver.dimension())) {
-                continue;
-            }
-            receiver.receiveRadioStrength(encryptedPayload, fallbackStrength);
+            receiver.receiveRadioStrength(strength);
         }
     }
 
@@ -82,7 +73,7 @@ public final class RadioNetwork {
 
     private static boolean canReach(RadioEndpoint a, RadioEndpoint b, AntennaTier aTier, AntennaTier bTier) {
         if (!sameDimension(a.dimension(), b.dimension())) {
-            return false;
+            return aTier.crossDimensional() && bTier.crossDimensional();
         }
         int limitingRange = limitingRange(aTier, bTier);
         if (limitingRange < 0) {
@@ -110,6 +101,6 @@ public final class RadioNetwork {
 
     private static void cleanup() {
         ANTENNAS.removeIf(RadioAntennaBlockEntity::isRemoved);
-        LINKS.removeIf(BrassRadioLinkBlockEntity::isRemoved);
+        LINKS.removeIf(RadioRedstoneLink::isRemoved);
     }
 }

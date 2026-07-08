@@ -4,6 +4,7 @@
     "create_radio:andesite_radio_antenna",
     "create_radio:copper_radio_antenna",
     "create_radio:brass_radio_antenna",
+    "create_radio:astronautical_radio_link",
     "create_radio:brass_radio_link"
   ]
 }

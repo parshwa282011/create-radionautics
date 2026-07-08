@@ -1,0 +1,61 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "mast": "minecraft:block/lightning_rod",
+    "dish": "minecraft:block/copper_block",
+    "coil": "minecraft:block/amethyst_block",
+    "particle": "minecraft:block/lightning_rod"
+  },
+  "elements": [
+    {
+      "from": [7, 0, 7],
+      "to": [9, 16, 9],
+      "faces": {
+        "north": { "uv": [7, 0, 9, 16], "texture": "#mast" },
+        "south": { "uv": [7, 0, 9, 16], "texture": "#mast" },
+        "east": { "uv": [7, 0, 9, 16], "texture": "#mast" },
+        "west": { "uv": [7, 0, 9, 16], "texture": "#mast" }
+      }
+    },
+    {
+      "from": [3, 2, 7],
+      "to": [13, 4, 9],
+      "faces": {
+        "north": { "uv": [3, 6, 13, 8], "texture": "#dish" },
+        "south": { "uv": [3, 6, 13, 8], "texture": "#dish" },
+        "up": { "uv": [3, 7, 13, 9], "texture": "#dish" },
+        "down": { "uv": [3, 7, 13, 9], "texture": "#dish" }
+      }
+    },
+    {
+      "from": [7, 2, 3],
+      "to": [9, 4, 13],
+      "faces": {
+        "east": { "uv": [3, 6, 13, 8], "texture": "#dish" },
+        "west": { "uv": [3, 6, 13, 8], "texture": "#dish" },
+        "up": { "uv": [7, 3, 9, 13], "texture": "#dish" },
+        "down": { "uv": [7, 3, 9, 13], "texture": "#dish" }
+      }
+    },
+    {
+      "from": [5, 14, 7],
+      "to": [11, 16, 9],
+      "faces": {
+        "north": { "uv": [5, 7, 11, 9], "texture": "#coil" },
+        "south": { "uv": [5, 7, 11, 9], "texture": "#coil" },
+        "up": { "uv": [5, 7, 11, 9], "texture": "#coil" },
+        "down": { "uv": [5, 7, 11, 9], "texture": "#coil" }
+      }
+    },
+    {
+      "from": [7, 14, 5],
+      "to": [9, 16, 11],
+      "faces": {
+        "east": { "uv": [5, 7, 11, 9], "texture": "#coil" },
+        "west": { "uv": [5, 7, 11, 9], "texture": "#coil" },
+        "up": { "uv": [7, 5, 9, 11], "texture": "#coil" },
+        "down": { "uv": [7, 5, 9, 11], "texture": "#coil" }
+      }
+    }
+  ]
+}

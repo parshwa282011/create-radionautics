@@ -18,5 +18,9 @@ public final class ComputerCraftCompat {
                 PeripheralCapability.get(),
                 RadioBlockEntities.RADIO_ANTENNA.get(),
                 (antenna, direction) -> new RadioPeripheral(antenna));
+        event.registerBlockEntity(
+                PeripheralCapability.get(),
+                RadioBlockEntities.ASTRONAUTICAL_RADIO_LINK.get(),
+                (antenna, direction) -> new RadioPeripheral(antenna));
     }
 }

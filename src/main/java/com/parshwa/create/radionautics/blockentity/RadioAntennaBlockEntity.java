@@ -5,6 +5,7 @@ import com.parshwa.create.radionautics.radio.AntennaTier;
 import com.parshwa.create.radionautics.radio.RadioEndpoint;
 import com.parshwa.create.radionautics.radio.RadioNetwork;
 import com.parshwa.create.radionautics.radio.RadioPacket;
+import com.parshwa.create.radionautics.radio.SablePositionHelper;
 import com.parshwa.create.radionautics.registry.RadioBlockEntities;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Quaterniondc;
 
 public class RadioAntennaBlockEntity extends BlockEntity implements RadioEndpoint {
     private final Queue<RadioPacket> queuedPackets = new ArrayDeque<>();
@@ -35,6 +37,10 @@ public class RadioAntennaBlockEntity extends BlockEntity implements RadioEndpoin
 
     public RadioAntennaBlockEntity(BlockPos pos, BlockState blockState) {
         super(RadioBlockEntities.RADIO_ANTENNA.get(), pos, blockState);
+    }
+
+    protected RadioAntennaBlockEntity(net.minecraft.world.level.block.entity.BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+        super(type, pos, blockState);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, RadioAntennaBlockEntity antenna) {
@@ -120,7 +126,11 @@ public class RadioAntennaBlockEntity extends BlockEntity implements RadioEndpoin
     }
 
     public Vec3 shipCenterPos() {
-        return radioPosition();
+        return SablePositionHelper.shipCenterPosition(this);
+    }
+
+    public Quaterniondc shipRotation() {
+        return SablePositionHelper.shipRotation(this);
     }
 
     @Override
@@ -135,7 +145,7 @@ public class RadioAntennaBlockEntity extends BlockEntity implements RadioEndpoin
 
     @Override
     public Vec3 radioPosition() {
-        return Vec3.atCenterOf(worldPosition);
+        return SablePositionHelper.radioPosition(level, worldPosition);
     }
 
     @Override

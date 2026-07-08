@@ -1,16 +1,14 @@
 {
   "itemGroup.create_radio.main": "Create: Radionautics",
   "container.create_radio.brass_radio_link": "Brass Radio Link",
+  "container.create_radio.astronautical_radio_link": "Astronautical Radio Link",
   "gui.create_radio.brass_radio_link.save": "Save",
   "gui.create_radio.brass_radio_link.sender": "Sender",
   "gui.create_radio.brass_radio_link.receiver": "Receiver",
-  "gui.create_radio.brass_radio_link.encrypted": "Encrypted",
-  "gui.create_radio.brass_radio_link.clear": "Clear",
   "gui.create_radio.brass_radio_link.frequency": "Frequency",
-  "gui.create_radio.brass_radio_link.crypto": "Crypto",
-  "gui.create_radio.brass_radio_link.identifier": "Identifier",
   "block.create_radio.andesite_radio_antenna": "Andesite Radio Antenna",
   "block.create_radio.copper_radio_antenna": "Copper Radio Antenna",
   "block.create_radio.brass_radio_antenna": "Brass Radio Antenna",
+  "block.create_radio.astronautical_radio_link": "Astronautical Radio Link",
   "block.create_radio.brass_radio_link": "Brass Radio Link"
 }
