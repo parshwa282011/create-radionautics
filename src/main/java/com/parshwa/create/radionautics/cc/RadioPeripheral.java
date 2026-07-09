@@ -1,8 +1,9 @@
 package com.parshwa.create.radionautics.cc;
 
-import com.parshwa.create.radionautics.blockentity.RadioAntennaBlockEntity;
 import com.parshwa.create.radionautics.radio.RadioCrypto;
+import com.parshwa.create.radionautics.radio.RadioNetwork;
 import com.parshwa.create.radionautics.radio.RadioPacket;
+import com.parshwa.create.radionautics.radio.RadioPacketEndpoint;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -15,11 +16,11 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.jetbrains.annotations.Nullable;
 
-public class RadioPeripheral implements IPeripheral, RadioAntennaBlockEntity.PacketListener {
-    private final RadioAntennaBlockEntity antenna;
+public class RadioPeripheral implements IPeripheral, RadioPacketEndpoint.PacketListener {
+    private final RadioPacketEndpoint antenna;
     private final List<IComputerAccess> computers = new CopyOnWriteArrayList<>();
 
-    public RadioPeripheral(RadioAntennaBlockEntity antenna) {
+    public RadioPeripheral(RadioPacketEndpoint antenna) {
         this.antenna = antenna;
     }
 
@@ -31,6 +32,7 @@ public class RadioPeripheral implements IPeripheral, RadioAntennaBlockEntity.Pac
     @Override
     public void attach(IComputerAccess computer) {
         computers.add(computer);
+        RadioNetwork.registerAntenna(antenna);
         antenna.addPacketListener(this);
     }
 

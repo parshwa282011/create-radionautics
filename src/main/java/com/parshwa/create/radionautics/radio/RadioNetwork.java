@@ -1,25 +1,24 @@
 package com.parshwa.create.radionautics.radio;
 
-import com.parshwa.create.radionautics.blockentity.RadioAntennaBlockEntity;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
 public final class RadioNetwork {
-    private static final List<RadioAntennaBlockEntity> ANTENNAS = new CopyOnWriteArrayList<>();
+    private static final List<RadioPacketEndpoint> ANTENNAS = new CopyOnWriteArrayList<>();
     private static final List<RadioRedstoneLink> LINKS = new CopyOnWriteArrayList<>();
 
     private RadioNetwork() {
     }
 
-    public static void registerAntenna(RadioAntennaBlockEntity antenna) {
+    public static void registerAntenna(RadioPacketEndpoint antenna) {
         if (!ANTENNAS.contains(antenna)) {
             ANTENNAS.add(antenna);
         }
     }
 
-    public static void unregisterAntenna(RadioAntennaBlockEntity antenna) {
+    public static void unregisterAntenna(RadioPacketEndpoint antenna) {
         ANTENNAS.remove(antenna);
     }
 
@@ -33,11 +32,12 @@ public final class RadioNetwork {
         LINKS.remove(link);
     }
 
-    public static int broadcastPacket(RadioAntennaBlockEntity sender, String frequency, byte[] payload) {
+    public static int broadcastPacket(RadioPacketEndpoint sender, String frequency, byte[] payload) {
         cleanup();
         int delivered = 0;
         RadioPacket packet = new RadioPacket(sender.radioId(), frequency, payload);
-        for (RadioAntennaBlockEntity receiver : ANTENNAS) {
+        RadioWebUBridge.record(packet, sender);
+        for (RadioPacketEndpoint receiver : ANTENNAS) {
             if (receiver == sender || receiver.isRemoved()) {
                 continue;
             }
@@ -69,6 +69,7 @@ public final class RadioNetwork {
     public static void clear() {
         ANTENNAS.clear();
         LINKS.clear();
+        RadioWebUBridge.clear();
     }
 
     private static boolean canReach(RadioEndpoint a, RadioEndpoint b, AntennaTier aTier, AntennaTier bTier) {
@@ -100,7 +101,7 @@ public final class RadioNetwork {
     }
 
     private static void cleanup() {
-        ANTENNAS.removeIf(RadioAntennaBlockEntity::isRemoved);
+        ANTENNAS.removeIf(RadioEndpoint::isRemoved);
         LINKS.removeIf(RadioRedstoneLink::isRemoved);
     }
 }

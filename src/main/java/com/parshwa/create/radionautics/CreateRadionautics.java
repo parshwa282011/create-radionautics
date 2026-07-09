@@ -2,7 +2,9 @@ package com.parshwa.create.radionautics;
 
 import com.mojang.logging.LogUtils;
 import com.parshwa.create.radionautics.cc.ComputerCraftCompat;
+import com.parshwa.create.radionautics.cc.SputnikRadioEndpoint;
 import com.parshwa.create.radionautics.client.RadioClient;
+import com.parshwa.create.radionautics.compat.cosmonautics.CosmonauticsWebUCompat;
 import com.parshwa.create.radionautics.config.RadioConfig;
 import com.parshwa.create.radionautics.network.RadioNetworking;
 import com.parshwa.create.radionautics.registry.RadioBlockEntities;
@@ -41,11 +43,15 @@ public class CreateRadionautics {
         if (ModList.get().isLoaded("computercraft")) {
             ComputerCraftCompat.register(modBus);
         }
+        if (ModList.get().isLoaded("rocketnautics")) {
+            CosmonauticsWebUCompat.register();
+        }
 
         NeoForge.EVENT_BUS.addListener(this::onServerStopping);
     }
 
     private void onServerStopping(ServerStoppingEvent event) {
         com.parshwa.create.radionautics.radio.RadioNetwork.clear();
+        SputnikRadioEndpoint.clear();
     }
 }

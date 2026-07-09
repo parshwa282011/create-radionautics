@@ -5,6 +5,7 @@ import com.parshwa.create.radionautics.radio.AntennaTier;
 import com.parshwa.create.radionautics.radio.RadioEndpoint;
 import com.parshwa.create.radionautics.radio.RadioNetwork;
 import com.parshwa.create.radionautics.radio.RadioPacket;
+import com.parshwa.create.radionautics.radio.RadioPacketEndpoint;
 import com.parshwa.create.radionautics.radio.SablePositionHelper;
 import com.parshwa.create.radionautics.registry.RadioBlockEntities;
 import java.nio.charset.StandardCharsets;
@@ -28,10 +29,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaterniondc;
 
-public class RadioAntennaBlockEntity extends BlockEntity implements RadioEndpoint {
+public class RadioAntennaBlockEntity extends BlockEntity implements RadioPacketEndpoint {
     private final Queue<RadioPacket> queuedPackets = new ArrayDeque<>();
     private final Set<String> boundFrequencies = new HashSet<>();
-    private final List<PacketListener> packetListeners = new CopyOnWriteArrayList<>();
+    private final List<RadioPacketEndpoint.PacketListener> packetListeners = new CopyOnWriteArrayList<>();
     private UUID radioId = UUID.randomUUID();
     private boolean continousLoad;
 
@@ -96,9 +97,10 @@ public class RadioAntennaBlockEntity extends BlockEntity implements RadioEndpoin
         return RadioNetwork.broadcastPacket(this, normalizeFrequency(frequency), payload);
     }
 
+    @Override
     public void receivePacket(RadioPacket packet) {
         queuedPackets.add(packet);
-        for (PacketListener listener : packetListeners) {
+        for (RadioPacketEndpoint.PacketListener listener : packetListeners) {
             listener.onPacket(packet);
         }
         setChanged();
@@ -129,6 +131,12 @@ public class RadioAntennaBlockEntity extends BlockEntity implements RadioEndpoin
         return SablePositionHelper.shipCenterPosition(this);
     }
 
+    @Override
+    public Level level() {
+        return level;
+    }
+
+    @Override
     public Quaterniondc shipRotation() {
         return SablePositionHelper.shipRotation(this);
     }
@@ -184,15 +192,13 @@ public class RadioAntennaBlockEntity extends BlockEntity implements RadioEndpoin
         return frequency == null ? "" : frequency.trim();
     }
 
-    public void addPacketListener(PacketListener listener) {
+    @Override
+    public void addPacketListener(RadioPacketEndpoint.PacketListener listener) {
         packetListeners.add(listener);
     }
 
-    public void removePacketListener(PacketListener listener) {
+    @Override
+    public void removePacketListener(RadioPacketEndpoint.PacketListener listener) {
         packetListeners.remove(listener);
-    }
-
-    public interface PacketListener {
-        void onPacket(RadioPacket packet);
     }
 }
