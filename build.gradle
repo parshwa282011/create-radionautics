@@ -71,13 +71,6 @@ repositories {
     }
 }
 
-tasks.register("sanitizeCosmonauticsCompileJar", Zip) {
-    archiveFileName = "cosmonautics-compile.jar"
-    destinationDirectory = layout.buildDirectory.dir("tmp/cosmonautics-compile")
-    from(zipTree(layout.projectDirectory.file("run/client1/mods/cosmonautics-1.4.0.rc1.jar")))
-    exclude("META-INF/services/com.sun.source.util.Plugin")
-}
-
 dependencies {
     implementation("dev.ryanhcode.sable:sable-neoforge-1.21.1:${sable_version}")
     implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
@@ -93,12 +86,7 @@ dependencies {
     compileOnly("cc.tweaked:cc-tweaked-${minecraft_version}-core-api:${cc_tweaked_version}")
     compileOnly("cc.tweaked:cc-tweaked-${minecraft_version}-forge-api:${cc_tweaked_version}")
     runtimeOnly("cc.tweaked:cc-tweaked-${minecraft_version}-forge:${cc_tweaked_version}")
-    compileOnly(files(tasks.named("sanitizeCosmonauticsCompileJar").flatMap { it.archiveFile }))
 
-}
-
-tasks.named("compileJava") {
-    dependsOn("sanitizeCosmonauticsCompileJar")
 }
 
 tasks.withType(JavaCompile).configureEach {

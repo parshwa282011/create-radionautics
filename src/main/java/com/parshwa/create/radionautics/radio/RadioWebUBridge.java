@@ -32,6 +32,10 @@ public final class RadioWebUBridge {
         return LAST_MESSAGES.get(RadioAntennaBlockEntity.normalizeFrequency(frequency));
     }
 
+    public static void recordManual(LastMessage message) {
+        LAST_MESSAGES.put(RadioAntennaBlockEntity.normalizeFrequency(message.frequency()), message);
+    }
+
     public static void clear() {
         LAST_MESSAGES.clear();
         MESSAGE_COUNTER.set(0L);
