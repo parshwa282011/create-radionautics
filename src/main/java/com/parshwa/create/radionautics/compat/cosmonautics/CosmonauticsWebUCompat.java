@@ -261,9 +261,11 @@ public final class CosmonauticsWebUCompat {
         var packet = link.pollPacket();
         while (packet != null) {
             if (frequency.equals(packet.frequency())) {
+                long receivedUtcMillis = System.currentTimeMillis();
                 tag.putString("LastPayload", new String(packet.payload(), StandardCharsets.UTF_8));
                 tag.putLong("LastMessageId", tag.getLong("LastMessageId") + 1L);
                 tag.putLong("LastReceivedTick", link.level() == null ? -1L : Math.floorMod(link.level().getDayTime(), 24000L));
+                tag.putLong("LastReceivedUtcMillis", receivedUtcMillis);
             }
             packet = link.pollPacket();
         }
@@ -277,7 +279,8 @@ public final class CosmonauticsWebUCompat {
                     parseDouble(payload),
                     payload.length(),
                     tag.getLong("LastMessageId"),
-                    tag.getLong("LastReceivedTick")));
+                    tag.getLong("LastReceivedTick"),
+                    tag.getLong("LastReceivedUtcMillis")));
         }
     }
 

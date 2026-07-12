@@ -18,14 +18,15 @@ public final class RadioWebUBridge {
         Level level = receiver.level();
         long dayTime = level == null ? -1L : Math.floorMod(level.getDayTime(), 24000L);
         String payload = new String(packet.payload(), StandardCharsets.UTF_8);
-        LAST_MESSAGES.put(packet.frequency(), new LastMessage(
+        recordManual(new LastMessage(
                 packet.frequency(),
                 payload,
                 stableHash(payload),
                 parseDouble(payload),
                 payload.length(),
                 MESSAGE_COUNTER.incrementAndGet(),
-                dayTime));
+                dayTime,
+                System.currentTimeMillis()));
     }
 
     public static LastMessage lastMessage(String frequency) {
@@ -33,7 +34,12 @@ public final class RadioWebUBridge {
     }
 
     public static void recordManual(LastMessage message) {
-        LAST_MESSAGES.put(RadioAntennaBlockEntity.normalizeFrequency(message.frequency()), message);
+        LAST_MESSAGES.compute(RadioAntennaBlockEntity.normalizeFrequency(message.frequency()), (frequency, existing) -> {
+            if (existing == null || message.receivedUtcMillis() >= existing.receivedUtcMillis()) {
+                return message;
+            }
+            return existing;
+        });
     }
 
     public static void clear() {
@@ -71,6 +77,7 @@ public final class RadioWebUBridge {
             double parsedNumber,
             int length,
             long messageId,
-            long receivedDayTime) {
+            long receivedDayTime,
+            long receivedUtcMillis) {
     }
 }
