@@ -1,0 +1,74 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "mast": "minecraft:block/lightning_rod",
+    "beacon": "minecraft:block/sea_lantern",
+    "particle": "minecraft:block/lightning_rod"
+  },
+  "elements": [
+    {
+      "from": [
+        6,
+        0,
+        6
+      ],
+      "to": [
+        10,
+        13,
+        10
+      ],
+      "faces": {
+        "north": {
+          "texture": "#mast"
+        },
+        "south": {
+          "texture": "#mast"
+        },
+        "east": {
+          "texture": "#mast"
+        },
+        "west": {
+          "texture": "#mast"
+        },
+        "up": {
+          "texture": "#mast"
+        },
+        "down": {
+          "texture": "#mast"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        13,
+        4
+      ],
+      "to": [
+        12,
+        16,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#beacon"
+        },
+        "south": {
+          "texture": "#beacon"
+        },
+        "east": {
+          "texture": "#beacon"
+        },
+        "west": {
+          "texture": "#beacon"
+        },
+        "up": {
+          "texture": "#beacon"
+        },
+        "down": {
+          "texture": "#beacon"
+        }
+      }
+    }
+  ]
+}

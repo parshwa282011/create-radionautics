@@ -1,0 +1,153 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "mast": "minecraft:block/lightning_rod",
+    "beacon": "minecraft:block/sea_lantern",
+    "rim": "create:block/brass_casing",
+    "particle": "minecraft:block/sea_lantern"
+  },
+  "elements": [
+    {
+      "from": [
+        6,
+        0,
+        6
+      ],
+      "to": [
+        10,
+        12,
+        10
+      ],
+      "faces": {
+        "north": {
+          "texture": "#mast"
+        },
+        "south": {
+          "texture": "#mast"
+        },
+        "east": {
+          "texture": "#mast"
+        },
+        "west": {
+          "texture": "#mast"
+        },
+        "up": {
+          "texture": "#mast"
+        },
+        "down": {
+          "texture": "#mast"
+        }
+      }
+    },
+    {
+      "from": [
+        3,
+        12,
+        3
+      ],
+      "to": [
+        13,
+        16,
+        13
+      ],
+      "faces": {
+        "north": {
+          "texture": "#beacon"
+        },
+        "south": {
+          "texture": "#beacon"
+        },
+        "east": {
+          "texture": "#beacon"
+        },
+        "west": {
+          "texture": "#beacon"
+        },
+        "up": {
+          "texture": "#beacon"
+        },
+        "down": {
+          "texture": "#beacon"
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        10,
+        7
+      ],
+      "to": [
+        15,
+        12,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#rim"
+        },
+        "south": {
+          "texture": "#rim"
+        },
+        "east": {
+          "texture": "#rim"
+        },
+        "west": {
+          "texture": "#rim"
+        },
+        "up": {
+          "texture": "#rim"
+        },
+        "down": {
+          "texture": "#rim"
+        }
+      }
+    },
+    {
+      "from": [
+        7,
+        10,
+        1
+      ],
+      "to": [
+        9,
+        12,
+        15
+      ],
+      "faces": {
+        "north": {
+          "texture": "#rim"
+        },
+        "south": {
+          "texture": "#rim"
+        },
+        "east": {
+          "texture": "#rim"
+        },
+        "west": {
+          "texture": "#rim"
+        },
+        "up": {
+          "texture": "#rim"
+        },
+        "down": {
+          "texture": "#rim"
+        }
+      }
+    }
+  ],
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    }
+  }
+}

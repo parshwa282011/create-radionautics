@@ -1,0 +1,153 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "dish": "minecraft:block/iron_block",
+    "rim": "create:block/brass_casing",
+    "feed": "minecraft:block/copper_block",
+    "particle": "minecraft:block/iron_block"
+  },
+  "elements": [
+    {
+      "from": [
+        1,
+        3,
+        6
+      ],
+      "to": [
+        15,
+        15,
+        10
+      ],
+      "faces": {
+        "north": {
+          "texture": "#dish"
+        },
+        "south": {
+          "texture": "#dish"
+        },
+        "east": {
+          "texture": "#dish"
+        },
+        "west": {
+          "texture": "#dish"
+        },
+        "up": {
+          "texture": "#dish"
+        },
+        "down": {
+          "texture": "#dish"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        1,
+        5
+      ],
+      "to": [
+        16,
+        3,
+        11
+      ],
+      "faces": {
+        "north": {
+          "texture": "#rim"
+        },
+        "south": {
+          "texture": "#rim"
+        },
+        "east": {
+          "texture": "#rim"
+        },
+        "west": {
+          "texture": "#rim"
+        },
+        "up": {
+          "texture": "#rim"
+        },
+        "down": {
+          "texture": "#rim"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        15,
+        5
+      ],
+      "to": [
+        16,
+        16,
+        11
+      ],
+      "faces": {
+        "north": {
+          "texture": "#rim"
+        },
+        "south": {
+          "texture": "#rim"
+        },
+        "east": {
+          "texture": "#rim"
+        },
+        "west": {
+          "texture": "#rim"
+        },
+        "up": {
+          "texture": "#rim"
+        },
+        "down": {
+          "texture": "#rim"
+        }
+      }
+    },
+    {
+      "from": [
+        6,
+        6,
+        1
+      ],
+      "to": [
+        10,
+        10,
+        6
+      ],
+      "faces": {
+        "north": {
+          "texture": "#feed"
+        },
+        "south": {
+          "texture": "#feed"
+        },
+        "east": {
+          "texture": "#feed"
+        },
+        "west": {
+          "texture": "#feed"
+        },
+        "up": {
+          "texture": "#feed"
+        },
+        "down": {
+          "texture": "#feed"
+        }
+      }
+    }
+  ],
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    }
+  }
+}

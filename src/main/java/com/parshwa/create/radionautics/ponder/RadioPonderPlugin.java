@@ -25,6 +25,11 @@ public class RadioPonderPlugin implements PonderPlugin {
 
         helper.addStoryBoard(itemKey(RadioItems.BRASS_RADIO_LINK.get()), "brass_radio_link", RadioPonderScenes::brassRadioLink);
         helper.addStoryBoard(itemKey(RadioItems.ASTRONAUTICAL_RADIO_LINK.get()), "astronautical_radio_link", RadioPonderScenes::astronauticalRadioLink);
+        helper.addStoryBoard(itemKey(RadioItems.GROUND_BASE.get()), "ground_base", RadioPonderScenes::groundBase);
+        helper.forComponents(List.of(
+                        itemKey(RadioItems.COPPER_SCRAMBLER.get()),
+                        itemKey(RadioItems.BRASS_SCRAMBLER.get())))
+                .addStoryBoard("scramblers", RadioPonderScenes::scramblers);
     }
 
     private static ResourceLocation itemKey(Item item) {

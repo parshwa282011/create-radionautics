@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "create_radio:ground_base",
+    "create_radio:ground_base_frame",
+    "create_radio:ground_base_mast",
+    "create_radio:ground_base_receiver",
+    "create_radio:ground_base_cap"
+  ]
+}

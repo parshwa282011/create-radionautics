@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "create_radio:block/ground_base"
+    }
+  }
+}

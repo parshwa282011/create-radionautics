@@ -3,7 +3,9 @@ package com.parshwa.create.radionautics.registry;
 import com.parshwa.create.radionautics.CreateRadionautics;
 import com.parshwa.create.radionautics.blockentity.AstronauticalRadioLinkBlockEntity;
 import com.parshwa.create.radionautics.blockentity.BrassRadioLinkBlockEntity;
+import com.parshwa.create.radionautics.blockentity.GroundBaseBlockEntity;
 import com.parshwa.create.radionautics.blockentity.RadioAntennaBlockEntity;
+import com.parshwa.create.radionautics.blockentity.ScramblerBlockEntity;
 import java.util.function.Supplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -32,6 +34,19 @@ public final class RadioBlockEntities {
             () -> BlockEntityType.Builder.of(
                     BrassRadioLinkBlockEntity::new,
                     RadioBlocks.BRASS_RADIO_LINK.get()).build(null));
+
+    public static final Supplier<BlockEntityType<GroundBaseBlockEntity>> GROUND_BASE = BLOCK_ENTITIES.register(
+            "ground_base",
+            () -> BlockEntityType.Builder.of(
+                    GroundBaseBlockEntity::new,
+                    RadioBlocks.GROUND_BASE.get()).build(null));
+
+    public static final Supplier<BlockEntityType<ScramblerBlockEntity>> SCRAMBLER = BLOCK_ENTITIES.register(
+            "scrambler",
+            () -> BlockEntityType.Builder.of(
+                    ScramblerBlockEntity::new,
+                    RadioBlocks.COPPER_SCRAMBLER.get(),
+                    RadioBlocks.BRASS_SCRAMBLER.get()).build(null));
 
     private RadioBlockEntities() {
     }

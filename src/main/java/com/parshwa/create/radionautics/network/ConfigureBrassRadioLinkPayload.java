@@ -1,6 +1,7 @@
 package com.parshwa.create.radionautics.network;
 
 import com.parshwa.create.radionautics.CreateRadionautics;
+import com.parshwa.create.radionautics.radio.RadioFrequencyConfigurable;
 import com.parshwa.create.radionautics.radio.RadioRedstoneLink;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -26,9 +27,12 @@ public record ConfigureBrassRadioLinkPayload(
 
     public void handle(IPayloadContext context) {
         context.enqueueWork(() -> {
-            if (context.player().level().getBlockEntity(pos) instanceof RadioRedstoneLink link
-                    && context.player().distanceToSqr(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D) {
-                link.configure(frequency, receiver);
+            if (context.player().distanceToSqr(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D) {
+                if (context.player().level().getBlockEntity(pos) instanceof RadioRedstoneLink link) {
+                    link.configure(frequency, receiver);
+                } else if (context.player().level().getBlockEntity(pos) instanceof RadioFrequencyConfigurable configurable) {
+                    configurable.configureFrequency(frequency);
+                }
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.parshwa.create.radionautics.menu;
 
 import com.parshwa.create.radionautics.radio.RadioRedstoneLink;
+import com.parshwa.create.radionautics.radio.RadioFrequencyConfigurable;
 import com.parshwa.create.radionautics.registry.RadioMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -64,6 +65,9 @@ public class BrassRadioLinkMenu extends AbstractContainerMenu {
         public static Snapshot from(Inventory inventory, BlockPos pos) {
             if (inventory.player.level().getBlockEntity(pos) instanceof RadioRedstoneLink link) {
                 return new Snapshot(link.frequency(), link.isReceiver());
+            }
+            if (inventory.player.level().getBlockEntity(pos) instanceof RadioFrequencyConfigurable configurable) {
+                return new Snapshot(configurable.frequency(), false);
             }
             return defaults();
         }

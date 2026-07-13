@@ -1,4 +1,5 @@
 .gradle/
+gradlew-home/
 build/
 run/
 runs/
@@ -6,3 +7,5 @@ runs/
 *.iml
 .idea/
 .vscode/
+.gradle-home
+

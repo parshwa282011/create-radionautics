@@ -1,5 +1,5 @@
 -- Create: Radionautics helper API.
--- This wraps the radionautics_radio peripheral with names that are pleasant to
+-- This wraps the radionautics_radio and radionautics_mega_radio peripherals with names that are pleasant to
 -- autocomplete inside CC:Tweaked's editor.
 
 local radionautics = {}
@@ -9,9 +9,9 @@ local function radio(side)
     if side then
         wrapped = peripheral.wrap(side)
     else
-        wrapped = peripheral.find("radionautics_radio")
+        wrapped = peripheral.find("radionautics_radio") or peripheral.find("radionautics_mega_radio")
     end
-    if not wrapped then error("No radionautics_radio peripheral attached", 2) end
+    if not wrapped then error("No Radionautics radio peripheral attached", 2) end
     return wrapped
 end
 
@@ -33,6 +33,12 @@ end
 
 function radionautics.send(frequency, payload, side)
     return radio(side).send(frequency, payload)
+end
+
+function radionautics.sendMany(frequencies, payload, side)
+    local wrapped = radio(side)
+    if not wrapped.sendMany then error("sendMany requires a radionautics_mega_radio peripheral", 2) end
+    return wrapped.sendMany(frequencies, payload)
 end
 
 function radionautics.receive(side)

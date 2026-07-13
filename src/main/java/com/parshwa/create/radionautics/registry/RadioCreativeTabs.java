@@ -23,6 +23,13 @@ public final class RadioCreativeTabs {
                 output.accept(RadioItems.BRASS_RADIO_ANTENNA.get());
                 output.accept(RadioItems.ASTRONAUTICAL_RADIO_LINK.get());
                 output.accept(RadioItems.BRASS_RADIO_LINK.get());
+                output.accept(RadioItems.GROUND_BASE.get());
+                output.accept(RadioItems.GROUND_BASE_FRAME.get());
+                output.accept(RadioItems.GROUND_BASE_MAST.get());
+                output.accept(RadioItems.GROUND_BASE_RECEIVER.get());
+                output.accept(RadioItems.GROUND_BASE_CAP.get());
+                output.accept(RadioItems.COPPER_SCRAMBLER.get());
+                output.accept(RadioItems.BRASS_SCRAMBLER.get());
             })
             .build());
 

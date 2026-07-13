@@ -1,0 +1,7 @@
+{
+  "selector": "#create_radio:ground_base_parts",
+  "priority": 2000,
+  "properties": {
+    "sable:mass": 64.0
+  }
+}

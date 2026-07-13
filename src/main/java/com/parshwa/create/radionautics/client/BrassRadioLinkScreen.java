@@ -13,6 +13,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 public class BrassRadioLinkScreen extends AbstractContainerScreen<BrassRadioLinkMenu> {
     private EditBox frequency;
     private boolean receiver;
+    private boolean showMode;
     private Button modeButton;
 
     public BrassRadioLinkScreen(BrassRadioLinkMenu menu, Inventory playerInventory, Component title) {
@@ -27,17 +28,20 @@ public class BrassRadioLinkScreen extends AbstractContainerScreen<BrassRadioLink
         super.init();
         BrassRadioLinkMenu.Snapshot snapshot = menu.snapshot();
         receiver = snapshot.receiver();
+        showMode = menu.blockEntity() != null;
 
         int x = leftPos + 22;
         int y = topPos + 34;
         frequency = addTextBox(x, y, 194, snapshot.frequency(), "Frequency");
-        modeButton = addRenderableWidget(Button.builder(modeText(), button -> {
-            receiver = !receiver;
-            button.setMessage(modeText());
-        }).bounds(x, y + 30, 94, 20).build());
+        if (showMode) {
+            modeButton = addRenderableWidget(Button.builder(modeText(), button -> {
+                receiver = !receiver;
+                button.setMessage(modeText());
+            }).bounds(x, y + 30, 94, 20).build());
+        }
 
         addRenderableWidget(Button.builder(Component.translatable("gui.create_radio.brass_radio_link.save"), button -> save())
-                .bounds(x + 114, y + 30, 80, 20)
+                .bounds(showMode ? x + 114 : x, y + 30, showMode ? 80 : 194, 20)
                 .build());
     }
 

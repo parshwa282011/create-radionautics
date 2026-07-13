@@ -1,0 +1,9 @@
+{
+  "parent": "create_radio:block/copper_scrambler",
+  "textures": {
+    "base": "create:block/brass_casing",
+    "core": "minecraft:block/redstone_block",
+    "mast": "minecraft:block/lightning_rod",
+    "particle": "create:block/brass_casing"
+  }
+}

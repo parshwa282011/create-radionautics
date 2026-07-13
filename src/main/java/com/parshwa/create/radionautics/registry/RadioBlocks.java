@@ -3,10 +3,14 @@ package com.parshwa.create.radionautics.registry;
 import com.parshwa.create.radionautics.CreateRadionautics;
 import com.parshwa.create.radionautics.block.AstronauticalRadioLinkBlock;
 import com.parshwa.create.radionautics.block.BrassRadioLinkBlock;
+import com.parshwa.create.radionautics.block.GroundBaseBlock;
 import com.parshwa.create.radionautics.block.RadioAntennaBlock;
+import com.parshwa.create.radionautics.block.ScramblerBlock;
+import com.parshwa.create.radionautics.block.ScramblerTier;
 import com.parshwa.create.radionautics.radio.AntennaTier;
 import java.util.function.Supplier;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -38,6 +42,38 @@ public final class RadioBlocks {
             "brass_radio_link",
             BrassRadioLinkBlock::new,
             BlockBehaviour.Properties.of().strength(3.0F, 6.0F).noOcclusion());
+
+    public static final Supplier<Block> GROUND_BASE = BLOCKS.registerBlock(
+            "ground_base",
+            GroundBaseBlock::new,
+            BlockBehaviour.Properties.of().strength(5.0F, 12.0F).noOcclusion());
+
+    public static final Supplier<Block> GROUND_BASE_FRAME = BLOCKS.registerSimpleBlock(
+            "ground_base_frame",
+            BlockBehaviour.Properties.of().strength(5.0F, 12.0F).noOcclusion());
+
+    public static final Supplier<Block> GROUND_BASE_MAST = BLOCKS.registerBlock(
+            "ground_base_mast",
+            RotatedPillarBlock::new,
+            BlockBehaviour.Properties.of().strength(5.0F, 12.0F).noOcclusion());
+
+    public static final Supplier<Block> GROUND_BASE_RECEIVER = BLOCKS.registerSimpleBlock(
+            "ground_base_receiver",
+            BlockBehaviour.Properties.of().strength(5.0F, 12.0F).noOcclusion());
+
+    public static final Supplier<Block> GROUND_BASE_CAP = BLOCKS.registerSimpleBlock(
+            "ground_base_cap",
+            BlockBehaviour.Properties.of().strength(5.0F, 12.0F).noOcclusion());
+
+    public static final Supplier<Block> COPPER_SCRAMBLER = BLOCKS.registerBlock(
+            "copper_scrambler",
+            properties -> new ScramblerBlock(ScramblerTier.COPPER, properties),
+            BlockBehaviour.Properties.of().strength(3.0F, 6.0F).noOcclusion());
+
+    public static final Supplier<Block> BRASS_SCRAMBLER = BLOCKS.registerBlock(
+            "brass_scrambler",
+            properties -> new ScramblerBlock(ScramblerTier.BRASS, properties),
+            BlockBehaviour.Properties.of().strength(4.0F, 8.0F).noOcclusion());
 
     private RadioBlocks() {
     }

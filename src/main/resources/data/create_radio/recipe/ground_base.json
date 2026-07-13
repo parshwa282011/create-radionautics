@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RCR",
+    "MGM",
+    "FPF"
+  ],
+  "key": {
+    "R": {
+      "item": "create_radio:ground_base_receiver"
+    },
+    "C": {
+      "item": "create_radio:ground_base_cap"
+    },
+    "M": {
+      "item": "create_radio:ground_base_mast"
+    },
+    "G": {
+      "item": "create_radio:astronautical_radio_link"
+    },
+    "F": {
+      "item": "create_radio:ground_base_frame"
+    },
+    "P": {
+      "item": "create:precision_mechanism"
+    }
+  },
+  "result": {
+    "id": "create_radio:ground_base",
+    "count": 1
+  }
+}

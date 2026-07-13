@@ -4,7 +4,8 @@ public enum AntennaTier {
     ANDESITE("andesite", 2_000, 1, false),
     COPPER("copper", 5_000, 2, false),
     BRASS("brass", -1, 5, false),
-    ASTRONAUTICAL("astronautical", -1, 8, true);
+    ASTRONAUTICAL("astronautical", -1, 8, true),
+    MEGA("mega", -1, Integer.MAX_VALUE, true);
 
     private final String serializedName;
     private final int rangeBlocks;

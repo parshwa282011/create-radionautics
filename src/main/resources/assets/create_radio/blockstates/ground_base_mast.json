@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "create_radio:block/ground_base_mast"
+    },
+    "axis=x": {
+      "model": "create_radio:block/ground_base_mast",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z": {
+      "model": "create_radio:block/ground_base_mast",
+      "x": 90
+    }
+  }
+}
