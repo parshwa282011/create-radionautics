@@ -47,6 +47,7 @@ public class RadioAntennaBlockEntity extends BlockEntity implements RadioPacketE
     public static void tick(Level level, BlockPos pos, BlockState state, RadioAntennaBlockEntity antenna) {
         if (!level.isClientSide) {
             RadioNetwork.registerAntenna(antenna);
+            com.parshwa.create.radionautics.radio.RadioMediaStore.tickCleanup();
         }
     }
 
@@ -100,10 +101,14 @@ public class RadioAntennaBlockEntity extends BlockEntity implements RadioPacketE
     @Override
     public void receivePacket(RadioPacket packet) {
         queuedPackets.add(packet);
+        notifyPacketListeners(packet);
+        setChanged();
+    }
+
+    protected void notifyPacketListeners(RadioPacket packet) {
         for (RadioPacketEndpoint.PacketListener listener : packetListeners) {
             listener.onPacket(packet);
         }
-        setChanged();
     }
 
     public RadioPacket pollPacket() {

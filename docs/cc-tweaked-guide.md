@@ -21,6 +21,115 @@ Radionautics adds three CC:Tweaked radio antenna peripherals:
 | Copper Radio Antenna | 5000 blocks | 2 |
 | Brass Radio Antenna | Infinite | 5 |
 
+The Ground Base appends the sender's exact projected world distance as the fifth
+value of each `radio_message` event. This uses Sable's world projection for
+antennas mounted on ships:
+
+```lua
+local event, frequency, senderId, message, distance = os.pullEvent("radio_message")
+print(("Signal arrived from %.3f blocks away"):format(distance))
+```
+
+## Creative Radio Receiver
+
+The Creative Radio Receiver is an uncraftable operator tool. It monitors clean
+packet traffic on every frequency, at any range and across dimensions. Attach a
+CC:Tweaked computer and listen for:
+
+```lua
+local event, frequency, senderId, message, distance, decodeMethod, raw, senderPos =
+  os.pullEvent("radio_audit")
+```
+
+`decodeMethod` is `plain`, `base64`, or `radionautics_crypto`. AES/XOR messages
+are automatically decoded when the sender created them with Radionautics'
+`cryptoEncrypt` helper during the current server session. Independently created
+encrypted ciphertext cannot be decoded without its key and remains available in
+`raw` for auditing.
+
+## Recorded Media
+
+Normal packets still emit `radio_message`. Completed media uses a separate audio
+or visual path and emits `radio_audio`, `radio_image`, or `radio_video`.
+
+### Recording voice with Simple Voice Chat
+
+Simple Voice Chat is optional for users but installed in the development run.
+Start a recording for a consenting player's UUID, speak using that mod's normal
+push-to-talk/voice activation, then stop to transmit the completed recording:
+
+```lua
+radio.startVoiceRecording("operations", "00000000-0000-0000-0000-000000000000")
+-- Speak, then:
+local receivers = radio.stopVoiceRecording()
+```
+
+The maximum recording length is five minutes. Audio arrives only after stopping:
+
+```lua
+local _, frequency, senderId, mediaId, format, _, _, duration, distance =
+  os.pullEvent("radio_audio")
+-- format is pcm_s16le_48000_mono. Audio is stored once on the server.
+```
+
+Audio remains in the shared server cache for ten minutes. Payload files are kept
+once under the active world save's `media/create_radio/` directory, never inside
+a CC computer directory. Only radios which were
+eligible receivers when it was sent may list or read it; the creative audit
+receiver may access every entry. Read it in chunks (maximum 128 KiB per call):
+
+```lua
+local info = radio.mediaInfo(mediaId)
+local offset = 0
+while offset < info.bytes do
+  local chunk = radio.mediaRead(mediaId, offset, math.min(128 * 1024, info.bytes - offset))
+  offset = offset + #chunk
+  -- decode/play or otherwise process chunk
+end
+
+for _, item in ipairs(radio.mediaList()) do
+  print(item.id, item.frequency, item.duration, item.expiresUtc)
+end
+```
+
+Expired files are deleted after ten minutes. The cache is cleared when the server stops, rejects individual recordings over
+32 MiB, and evicts the oldest recordings if its total reaches 256 MiB.
+
+The cache directory is also wiped whenever the server starts, including orphaned
+files left by a crash. Operators may clear it immediately with:
+
+```text
+/radionautics clear_media
+```
+
+`cancelVoiceRecording()` discards the active recording.
+
+### Exposure: CMOS images
+
+Exposure: CMOS emits `wireless_frame` with a palette identifier, a `{width,
+height}` size table and a binary pixel buffer. Send that completed frame directly:
+
+```lua
+local _, _, palette, size, pixels = os.pullEvent("wireless_frame")
+radio.sendImage("recon", pixels, tostring(palette), size[1], size[2])
+```
+
+The Ground Base receives it separately from text:
+
+```lua
+local _, frequency, senderId, pixels, palette, width, height, _, distance =
+  os.pullEvent("radio_image")
+```
+
+Completed custom video archives use:
+
+```lua
+radio.sendVideo("recon", videoBytes, "rvid", width, height, durationSeconds)
+```
+
+and arrive through `radio_video`. Media audit events are named
+`radio_audio_audit`, `radio_image_audit`, and `radio_video_audit`.
+
 Place a radio antenna directly next to a CC:Tweaked computer.
 
 ## Getting The Peripheral

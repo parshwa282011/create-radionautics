@@ -13,6 +13,7 @@ public final class RadioItems {
     public static final DeferredItem<BlockItem> ANDESITE_RADIO_ANTENNA = ITEMS.registerSimpleBlockItem("andesite_radio_antenna", RadioBlocks.ANDESITE_RADIO_ANTENNA);
     public static final DeferredItem<BlockItem> COPPER_RADIO_ANTENNA = ITEMS.registerSimpleBlockItem("copper_radio_antenna", RadioBlocks.COPPER_RADIO_ANTENNA);
     public static final DeferredItem<BlockItem> BRASS_RADIO_ANTENNA = ITEMS.registerSimpleBlockItem("brass_radio_antenna", RadioBlocks.BRASS_RADIO_ANTENNA);
+    public static final DeferredItem<BlockItem> CREATIVE_RADIO_RECEIVER = ITEMS.registerSimpleBlockItem("creative_radio_receiver", RadioBlocks.CREATIVE_RADIO_RECEIVER);
     public static final DeferredItem<BlockItem> ASTRONAUTICAL_RADIO_LINK = ITEMS.registerSimpleBlockItem("astronautical_radio_link", RadioBlocks.ASTRONAUTICAL_RADIO_LINK);
     public static final DeferredItem<BlockItem> BRASS_RADIO_LINK = ITEMS.registerSimpleBlockItem("brass_radio_link", RadioBlocks.BRASS_RADIO_LINK);
     public static final DeferredItem<BlockItem> GROUND_BASE = ITEMS.registerSimpleBlockItem("ground_base", RadioBlocks.GROUND_BASE);

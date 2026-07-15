@@ -3,6 +3,7 @@ package com.parshwa.create.radionautics.registry;
 import com.parshwa.create.radionautics.CreateRadionautics;
 import com.parshwa.create.radionautics.blockentity.AstronauticalRadioLinkBlockEntity;
 import com.parshwa.create.radionautics.blockentity.BrassRadioLinkBlockEntity;
+import com.parshwa.create.radionautics.blockentity.CreativeRadioReceiverBlockEntity;
 import com.parshwa.create.radionautics.blockentity.GroundBaseBlockEntity;
 import com.parshwa.create.radionautics.blockentity.RadioAntennaBlockEntity;
 import com.parshwa.create.radionautics.blockentity.ScramblerBlockEntity;
@@ -22,6 +23,12 @@ public final class RadioBlockEntities {
                     RadioBlocks.ANDESITE_RADIO_ANTENNA.get(),
                     RadioBlocks.COPPER_RADIO_ANTENNA.get(),
                     RadioBlocks.BRASS_RADIO_ANTENNA.get()).build(null));
+
+    public static final Supplier<BlockEntityType<CreativeRadioReceiverBlockEntity>> CREATIVE_RADIO_RECEIVER = BLOCK_ENTITIES.register(
+            "creative_radio_receiver",
+            () -> BlockEntityType.Builder.of(
+                    CreativeRadioReceiverBlockEntity::new,
+                    RadioBlocks.CREATIVE_RADIO_RECEIVER.get()).build(null));
 
     public static final Supplier<BlockEntityType<AstronauticalRadioLinkBlockEntity>> ASTRONAUTICAL_RADIO_LINK = BLOCK_ENTITIES.register(
             "astronautical_radio_link",

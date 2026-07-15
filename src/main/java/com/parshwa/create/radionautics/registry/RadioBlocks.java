@@ -3,6 +3,7 @@ package com.parshwa.create.radionautics.registry;
 import com.parshwa.create.radionautics.CreateRadionautics;
 import com.parshwa.create.radionautics.block.AstronauticalRadioLinkBlock;
 import com.parshwa.create.radionautics.block.BrassRadioLinkBlock;
+import com.parshwa.create.radionautics.block.CreativeRadioReceiverBlock;
 import com.parshwa.create.radionautics.block.GroundBaseBlock;
 import com.parshwa.create.radionautics.block.RadioAntennaBlock;
 import com.parshwa.create.radionautics.block.ScramblerBlock;
@@ -32,6 +33,11 @@ public final class RadioBlocks {
             "brass_radio_antenna",
             properties -> new RadioAntennaBlock(AntennaTier.BRASS, properties),
             BlockBehaviour.Properties.of().strength(3.0F, 6.0F).noOcclusion());
+
+    public static final Supplier<Block> CREATIVE_RADIO_RECEIVER = BLOCKS.registerBlock(
+            "creative_radio_receiver",
+            CreativeRadioReceiverBlock::new,
+            BlockBehaviour.Properties.of().strength(-1.0F, 3600000.0F).noLootTable().noOcclusion());
 
     public static final Supplier<Block> ASTRONAUTICAL_RADIO_LINK = BLOCKS.registerBlock(
             "astronautical_radio_link",

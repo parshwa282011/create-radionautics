@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "create_radio:block/creative_radio_receiver" }
+  }
+}

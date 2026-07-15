@@ -31,6 +31,10 @@ public final class ComputerCraftCompat {
                 PeripheralCapability.get(),
                 RadioBlockEntities.GROUND_BASE.get(),
                 (antenna, direction) -> new MegaRadioPeripheral(antenna));
+        event.registerBlockEntity(
+                PeripheralCapability.get(),
+                RadioBlockEntities.CREATIVE_RADIO_RECEIVER.get(),
+                (antenna, direction) -> new CreativeRadioReceiverPeripheral(antenna));
         registerSputnikPeripheral(event);
     }
 

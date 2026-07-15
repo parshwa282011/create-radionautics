@@ -10,6 +10,7 @@
   "block.create_radio.andesite_radio_antenna": "Andesite Radio Antenna",
   "block.create_radio.copper_radio_antenna": "Copper Radio Antenna",
   "block.create_radio.brass_radio_antenna": "Brass Radio Antenna",
+  "block.create_radio.creative_radio_receiver": "Creative Radio Receiver",
   "block.create_radio.astronautical_radio_link": "Astronautical Radio Link",
   "block.create_radio.brass_radio_link": "Brass Radio Link",
   "block.create_radio.ground_base": "Ground Base",

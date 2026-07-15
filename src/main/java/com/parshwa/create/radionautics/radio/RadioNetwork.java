@@ -2,6 +2,7 @@ package com.parshwa.create.radionautics.radio;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
@@ -45,13 +46,36 @@ public final class RadioNetwork {
     }
 
     public static int broadcastPacket(RadioPacketEndpoint sender, String frequency, byte[] payload) {
+        RadioPacket cleanPacket = RadioPacket.message(sender.radioId(), frequency, payload, sender.radioPosition());
+        return broadcast(sender, cleanPacket);
+    }
+
+    public static int broadcastMedia(RadioPacketEndpoint sender, String frequency, byte[] payload,
+                                     RadioMediaType type, String format, int width, int height, double durationSeconds) {
+        UUID mediaId = type == RadioMediaType.AUDIO
+                ? RadioMediaStore.storeAudio(sender, frequency, payload, format, durationSeconds)
+                : null;
+        byte[] transmittedPayload = type == RadioMediaType.AUDIO ? new byte[0] : payload;
+        RadioPacket packet = new RadioPacket(sender.radioId(), frequency, transmittedPayload, sender.radioPosition(),
+                type, format == null ? "" : format, width, height, durationSeconds, mediaId);
+        return broadcast(sender, packet);
+    }
+
+    private static int broadcast(RadioPacketEndpoint sender, RadioPacket cleanPacket) {
+        String frequency = cleanPacket.frequency();
         cleanup();
         int delivered = 0;
         boolean senderScrambled = isScrambled(sender, frequency);
-        RadioPacket cleanPacket = new RadioPacket(sender.radioId(), frequency, payload);
-        RadioWebUBridge.record(senderScrambled ? scrambledPacket(cleanPacket, sender, sender) : cleanPacket, sender);
+        if (cleanPacket.mediaType() == RadioMediaType.MESSAGE) {
+            RadioWebUBridge.record(senderScrambled ? scrambledPacket(cleanPacket, sender, sender) : cleanPacket, sender);
+        }
         for (RadioPacketEndpoint receiver : ANTENNAS) {
             if (receiver == sender || receiver.isRemoved()) {
+                continue;
+            }
+            if (receiver instanceof CreativeRadioMonitor) {
+                authorizeMedia(cleanPacket, receiver);
+                receiver.receivePacket(cleanPacket);
                 continue;
             }
             if (!receiver.isFrequencyBound(frequency)) {
@@ -61,6 +85,9 @@ public final class RadioNetwork {
                 continue;
             }
             boolean receiverScrambled = senderScrambled || isScrambled(receiver, frequency);
+            if (!receiverScrambled) {
+                authorizeMedia(cleanPacket, receiver);
+            }
             receiver.receivePacket(receiverScrambled ? scrambledPacket(cleanPacket, sender, receiver) : cleanPacket);
             delivered++;
         }
@@ -91,6 +118,11 @@ public final class RadioNetwork {
         LINKS.clear();
         SCRAMBLERS.clear();
         RadioWebUBridge.clear();
+        RadioMediaStore.clear();
+    }
+
+    private static void authorizeMedia(RadioPacket packet, RadioPacketEndpoint receiver) {
+        if (packet.mediaId() != null) RadioMediaStore.allow(packet.mediaId(), receiver.radioId());
     }
 
     private static boolean canReach(RadioEndpoint a, RadioEndpoint b, AntennaTier aTier, AntennaTier bTier) {
@@ -132,7 +164,7 @@ public final class RadioNetwork {
         for (int i = 0; i < scrambled.length; i++) {
             scrambled[i] = (byte) (scrambled[i] ^ random.nextInt(256));
         }
-        return new RadioPacket(packet.senderId(), packet.frequency(), scrambled);
+        return packet.withPayload(scrambled);
     }
 
     private static int limitingRange(AntennaTier a, AntennaTier b) {
