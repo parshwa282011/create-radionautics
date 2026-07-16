@@ -196,6 +196,34 @@ public class RadioPeripheral implements IPeripheral, RadioPacketEndpoint.PacketL
     }
 
     @LuaFunction
+    public final List<String> prepareImage(ByteBuffer pixels, String palette, int width, int height,
+                                           int targetWidth, int targetHeight, boolean dither) throws LuaException {
+        requireExposure();
+        try {
+            return com.parshwa.create.radionautics.compat.exposure.ExposureImageProcessor.prepareMonitor(
+                    antenna.level(), pixels, palette, width, height, targetWidth, targetHeight, dither);
+        } catch (RuntimeException exception) {
+            throw new LuaException(exception.getMessage());
+        }
+    }
+
+    @LuaFunction
+    public final List<String> preparePrintedImage(ByteBuffer pixels, String palette, int width, int height,
+                                                  int targetWidth, int targetHeight) throws LuaException {
+        requireExposure();
+        try {
+            return com.parshwa.create.radionautics.compat.exposure.ExposureImageProcessor.preparePrint(
+                    antenna.level(), pixels, palette, width, height, targetWidth, targetHeight);
+        } catch (RuntimeException exception) {
+            throw new LuaException(exception.getMessage());
+        }
+    }
+
+    private static void requireExposure() throws LuaException {
+        if (!ModList.get().isLoaded("exposure")) throw new LuaException("Exposure is not installed");
+    }
+
+    @LuaFunction
     public final int sendVideo(String frequency, ByteBuffer data, String format, int width, int height, double durationSeconds) throws LuaException {
         if (width <= 0 || height <= 0) throw new LuaException("video dimensions must be positive");
         return sendMedia(frequency, data, com.parshwa.create.radionautics.radio.RadioMediaType.VIDEO,

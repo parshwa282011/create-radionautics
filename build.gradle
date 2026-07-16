@@ -92,6 +92,7 @@ dependencies {
     compileOnly("de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}")
     runtimeOnly("maven.modrinth:simple-voice-chat:neoforge-${voicechat_version}")
     runtimeOnly("maven.modrinth:exposure-cmos:${exposure_cmos_version}")
+    compileOnly("maven.modrinth:exposure:${exposure_version}")
     runtimeOnly("maven.modrinth:exposure:${exposure_version}")
     runtimeOnly("maven.modrinth:architectury-api:${architectury_version}+neoforge")
 

@@ -121,6 +121,47 @@ local _, frequency, senderId, pixels, palette, width, height, _, distance =
   os.pullEvent("radio_image")
 ```
 
+### Displaying an image accurately
+
+`prepareImage` resolves the real Exposure palette, downsamples by averaging the
+covered source pixels, and optionally applies Floyd-Steinberg dithering into the
+CC:Tweaked 16-color palette:
+
+```lua
+local monitor = assert(peripheral.find("monitor"), "Attach a monitor")
+monitor.setTextScale(0.5)
+local mw, mh = monitor.getSize()
+local rows = radio.prepareImage(pixels, palette, width, height, mw, mh, true)
+
+for y, colors in ipairs(rows) do
+  monitor.setCursorPos(1, y)
+  monitor.blit((" "):rep(#colors), colors, colors)
+end
+```
+
+Passing `false` as the final argument disables dithering for a cleaner, flatter
+look. The output rows are native CC blit-color strings.
+
+### Printing an image
+
+A CC printer is monochrome and limited to 25x21 characters, so
+`preparePrintedImage` creates a luminance-shaded printable version:
+
+```lua
+local printer = assert(peripheral.find("printer"), "Attach a printer")
+local rows = radio.preparePrintedImage(pixels, palette, width, height, 25, 21)
+
+assert(printer.newPage(), "Printer needs paper and ink")
+printer.setPageTitle("Radio image")
+for y, row in ipairs(rows) do
+  printer.setCursorPos(1, y)
+  printer.write(row)
+end
+assert(printer.endPage(), "Could not finish page")
+```
+
+The resulting page can be removed from the printer and viewed or placed normally.
+
 Completed custom video archives use:
 
 ```lua
