@@ -5,6 +5,7 @@ import com.parshwa.create.radionautics.block.AstronauticalRadioLinkBlock;
 import com.parshwa.create.radionautics.block.BrassRadioLinkBlock;
 import com.parshwa.create.radionautics.block.CreativeRadioReceiverBlock;
 import com.parshwa.create.radionautics.block.GroundBaseBlock;
+import com.parshwa.create.radionautics.block.GroundBaseReceiverBlock;
 import com.parshwa.create.radionautics.block.RadioAntennaBlock;
 import com.parshwa.create.radionautics.block.ScramblerBlock;
 import com.parshwa.create.radionautics.block.ScramblerTier;
@@ -63,8 +64,9 @@ public final class RadioBlocks {
             RotatedPillarBlock::new,
             BlockBehaviour.Properties.of().strength(5.0F, 12.0F).noOcclusion());
 
-    public static final Supplier<Block> GROUND_BASE_RECEIVER = BLOCKS.registerSimpleBlock(
+    public static final Supplier<Block> GROUND_BASE_RECEIVER = BLOCKS.registerBlock(
             "ground_base_receiver",
+            GroundBaseReceiverBlock::new,
             BlockBehaviour.Properties.of().strength(5.0F, 12.0F).noOcclusion());
 
     public static final Supplier<Block> GROUND_BASE_CAP = BLOCKS.registerSimpleBlock(
